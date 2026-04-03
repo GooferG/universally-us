@@ -38,12 +38,15 @@ export default function Comments({ postId, initialComments }: CommentsProps) {
     setStatus("submitting");
     setErrorMsg("");
 
-    const result = await submitComment({
-      postId,
-      authorName: form.name,
-      authorEmail: form.email,
-      content: form.content,
-    });
+    const result = await submitComment(
+      {
+        postId,
+        authorName: form.name,
+        authorEmail: form.email,
+        content: form.content,
+      },
+      (session as { wpToken?: string })?.wpToken
+    );
 
     if (result.ok && result.comment) {
       // WordPress may hold comment for moderation (status !== "approved")

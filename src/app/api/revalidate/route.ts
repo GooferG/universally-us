@@ -23,8 +23,15 @@ const SECRET = process.env.REVALIDATION_SECRET;
  */
 export async function POST(req: NextRequest) {
   try {
+    // Accept secret from query param (WP Webhooks style) or request body
+    const querySecret = req.nextUrl.searchParams.get("secret");
+
     const body = await req.json();
-    const { secret, slug, action } = body;
+
+    // WP Webhooks sends post_name for the slug; fall back to custom slug field
+    const secret = querySecret ?? body.secret;
+    const slug   = body.post_name ?? body.slug;
+    const action = body.action ?? body.post_status;
 
     // Validate secret
     if (!SECRET || secret !== SECRET) {
@@ -42,8 +49,8 @@ export async function POST(req: NextRequest) {
       revalidatePath(`/articles/${slug}`);
     }
 
-    // On delete, also revalidate categories in case one became empty
-    if (action === "delete") {
+    // On delete/trash, also revalidate categories in case one became empty
+    if (action === "delete" || action === "trash") {
       revalidateTag("categories");
     }
 

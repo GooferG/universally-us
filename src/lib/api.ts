@@ -144,12 +144,16 @@ export async function getComments(postId: number): Promise<WPComment[]> {
 }
 
 export async function submitComment(
-  payload: SubmitCommentPayload
+  payload: SubmitCommentPayload,
+  wpToken?: string
 ): Promise<{ ok: boolean; comment?: WPComment; error?: string }> {
   try {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (wpToken) headers["Authorization"] = `Bearer ${wpToken}`;
+
     const res = await fetch(`${BASE_URL}/comments`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({
         post: payload.postId,
         author_name: payload.authorName,
