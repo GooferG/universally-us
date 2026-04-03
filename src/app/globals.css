@@ -3,25 +3,100 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
+  --color-cream: #FAF5EE;
+  --color-rose: #C4775A;
+  --color-slate: #2D2A27;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #FAF5EE;
+    color: #2D2A27;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 bg-[#C4775A] text-[#FDFAF6] px-7 py-3 font-medium text-sm tracking-wide transition-all duration-300 hover:bg-[#A85E45] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 border border-[#C4775A] text-[#C4775A] px-7 py-3 font-medium text-sm tracking-wide transition-all duration-300 hover:bg-[#C4775A] hover:text-[#FDFAF6] hover:shadow-lg;
+  }
+
+  .btn-outline-cream {
+    @apply inline-flex items-center gap-2 border border-[#FAF5EE] text-[#FAF5EE] px-7 py-3 font-medium text-sm tracking-wide transition-all duration-300 hover:bg-[#FAF5EE] hover:text-[#2D2A27];
+  }
+
+  .section-eyebrow {
+    @apply text-[#C4775A] text-xs font-medium tracking-[0.2em] uppercase mb-3;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
 }
 
 @layer utilities {
+  .font-playfair {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
   .text-balance {
     text-wrap: balance;
   }
 }
+
+.nav-scrolled {
+  background: rgba(250, 245, 238, 0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(45, 42, 39, 0.08);
+}
+
+/* WordPress content */
+.wp-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.wp-content a {
+  color: #C4775A;
+  text-decoration: underline;
+  text-decoration-color: rgba(196, 119, 90, 0.4);
+  text-underline-offset: 3px;
+}
+.wp-content a:hover {
+  color: #A85E45;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-in-up  { animation: fadeInUp 0.7s ease forwards; }
+.animate-fade-in     { animation: fadeIn  0.6s ease forwards; }
+
+.delay-100 { animation-delay: 0.1s; opacity: 0; }
+.delay-200 { animation-delay: 0.2s; opacity: 0; }
+.delay-300 { animation-delay: 0.3s; opacity: 0; }
+.delay-400 { animation-delay: 0.4s; opacity: 0; }
+.delay-500 { animation-delay: 0.5s; opacity: 0; }
+.delay-600 { animation-delay: 0.6s; opacity: 0; }
