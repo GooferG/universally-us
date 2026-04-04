@@ -75,9 +75,12 @@ export default function Navbar() {
                 <div className="w-16 h-4 bg-[#EEE0CC] rounded animate-pulse" />
               ) : isLoggedIn ? (
                 <>
-                  <span className="text-sm text-[#7A7470] truncate max-w-[140px]">
+                  <Link
+                    href="/profile"
+                    className="text-sm text-[#7A7470] hover:text-[#C4775A] transition-colors truncate max-w-[140px]"
+                  >
                     {session.user?.name ?? session.user?.email}
-                  </span>
+                  </Link>
                   <button
                     onClick={() => signOut({ callbackUrl: "/" })}
                     className="text-sm font-medium text-[#4A4540] hover:text-[#C4775A] transition-colors"
@@ -137,9 +140,12 @@ export default function Navbar() {
             <div className="pt-3 border-t border-[#EEE0CC]">
               {isLoggedIn ? (
                 <div className="flex flex-col gap-3">
-                  <span className="text-sm text-[#7A7470]">
+                  <Link
+                    href="/profile"
+                    className="text-sm text-[#7A7470] hover:text-[#C4775A] transition-colors"
+                  >
                     {session?.user?.name ?? session?.user?.email}
-                  </span>
+                  </Link>
                   <button
                     onClick={() => signOut({ callbackUrl: "/" })}
                     className="text-sm font-medium text-[#C4775A] hover:text-[#A85E45] transition-colors text-left"
