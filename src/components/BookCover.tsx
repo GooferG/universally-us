@@ -1,22 +1,25 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 interface BookCoverProps {
   className?: string;
   imageUrl?: string;
 }
 
-export default function BookCover({ className = "", imageUrl }: BookCoverProps) {
+export default function BookCover({
+  className = '',
+  imageUrl = 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/book-min.webp',
+}: BookCoverProps) {
   if (imageUrl) {
     return (
-      <div className={`relative rounded-sm shadow-2xl overflow-hidden ${className}`}>
-        {/* Book spine shadow overlay */}
-        <div className="absolute left-0 top-0 bottom-0 w-4 bg-black/20 z-10" />
+      <div
+        className={`relative aspect-[2/3] rounded-sm overflow-hidden ${className}`}
+      >
         <Image
           src={imageUrl}
           alt="LEAVING YOU… for me by Alex Delon"
-          width={560}
-          height={840}
-          className="w-full h-auto block"
+          fill
+          sizes="(max-width: 768px) 100vw, 560px"
+          className="object-cover"
           priority
         />
       </div>
@@ -27,7 +30,7 @@ export default function BookCover({ className = "", imageUrl }: BookCoverProps) 
   return (
     <div
       className={`relative flex items-center justify-center bg-gradient-to-br from-[#C4775A] via-[#A85E45] to-[#7A4535] rounded-sm shadow-2xl ${className}`}
-      style={{ aspectRatio: "2/3", minHeight: "320px" }}
+      style={{ aspectRatio: '2/3', minHeight: '320px' }}
     >
       <div className="absolute left-0 top-0 bottom-0 w-4 bg-black/20 rounded-l-sm" />
       <div className="text-center px-8 py-10">
@@ -36,7 +39,7 @@ export default function BookCover({ className = "", imageUrl }: BookCoverProps) 
         </p>
         <h3
           className="font-playfair text-[#FAF5EE] leading-tight mb-6"
-          style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)" }}
+          style={{ fontSize: 'clamp(1.1rem, 3vw, 1.5rem)' }}
         >
           LEAVING YOU...
           <br />

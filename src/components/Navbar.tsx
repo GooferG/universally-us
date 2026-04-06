@@ -20,6 +20,10 @@ export default function Navbar() {
   const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated";
 
+  const handleExit = () => {
+    window.location.replace("https://www.google.com");
+  };
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -87,6 +91,12 @@ export default function Navbar() {
                   >
                     Log Out
                   </button>
+                  <button
+                    onClick={handleExit}
+                    className="ml-2 px-3 py-1 text-xs font-medium text-red-600 border border-red-200 rounded hover:bg-red-50 transition-colors"
+                  >
+                    Exit Site
+                  </button>
                 </>
               ) : (
                 <>
@@ -99,6 +109,12 @@ export default function Navbar() {
                   <Link href="/register" className="btn-primary text-xs px-5 py-2">
                     Register
                   </Link>
+                  <button
+                    onClick={handleExit}
+                    className="text-xs font-medium text-red-600 hover:text-red-700 transition-colors"
+                  >
+                    Exit Site
+                  </button>
                 </>
               )}
             </div>
@@ -163,6 +179,15 @@ export default function Navbar() {
                   </Link>
                 </div>
               )}
+
+              <div className="pt-3 border-t border-[#EEE0CC]">
+                <button
+                  onClick={handleExit}
+                  className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors text-left"
+                >
+                  Exit Site
+                </button>
+              </div>
             </div>
           </div>
         </div>
