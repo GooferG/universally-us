@@ -222,7 +222,7 @@ export async function deleteComment(
   wpToken: string
 ): Promise<{ ok: boolean; error?: string }> {
   try {
-    const res = await fetch(`${BASE_URL}/comments/${commentId}?force=true`, {
+    const res = await fetch(`${BASE_URL}/comments/${commentId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${wpToken}` },
     });

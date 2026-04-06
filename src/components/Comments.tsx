@@ -86,7 +86,7 @@ export default function Comments({ postId, initialComments }: CommentsProps) {
             <CommentItem
               key={comment.id}
               comment={comment}
-              canDelete={!!wpUserId && comment.author === wpUserId}
+              canDelete={!!wpUserId && Number(comment.author) === Number(wpUserId)}
               onDelete={handleDelete}
             />
           ))}
