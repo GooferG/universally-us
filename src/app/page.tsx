@@ -38,7 +38,7 @@ export default async function HomePage() {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(135deg, rgba(237,213,203,0.88) 0%, rgba(212,181,160,0.80) 50%, rgba(180,140,115,0.65) 100%)',
+              'linear-gradient(135deg, rgba(237,213,203,0.4) 0%, rgba(212,181,160,0.3) 50%, rgba(180,140,115,0.2) 100%)',
           }}
         />
 
