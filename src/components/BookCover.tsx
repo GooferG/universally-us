@@ -1,13 +1,35 @@
-export default function BookCover({ className = "" }: { className?: string }) {
+import Image from "next/image";
+
+interface BookCoverProps {
+  className?: string;
+  imageUrl?: string;
+}
+
+export default function BookCover({ className = "", imageUrl }: BookCoverProps) {
+  if (imageUrl) {
+    return (
+      <div className={`relative rounded-sm shadow-2xl overflow-hidden ${className}`}>
+        {/* Book spine shadow overlay */}
+        <div className="absolute left-0 top-0 bottom-0 w-4 bg-black/20 z-10" />
+        <Image
+          src={imageUrl}
+          alt="LEAVING YOU… for me by Alex Delon"
+          width={560}
+          height={840}
+          className="w-full h-auto block"
+          priority
+        />
+      </div>
+    );
+  }
+
+  // Fallback placeholder
   return (
     <div
       className={`relative flex items-center justify-center bg-gradient-to-br from-[#C4775A] via-[#A85E45] to-[#7A4535] rounded-sm shadow-2xl ${className}`}
       style={{ aspectRatio: "2/3", minHeight: "320px" }}
     >
-      {/* Book spine shadow */}
       <div className="absolute left-0 top-0 bottom-0 w-4 bg-black/20 rounded-l-sm" />
-
-      {/* Book content */}
       <div className="text-center px-8 py-10">
         <p className="font-playfair text-[#FAF5EE]/60 text-xs tracking-[0.3em] uppercase mb-6">
           Alex Delon
@@ -27,8 +49,6 @@ export default function BookCover({ className = "" }: { className?: string }) {
           courage, and healing
         </p>
       </div>
-
-      {/* Decorative corner elements */}
       <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-[#FAF5EE]/20" />
       <div className="absolute bottom-4 left-8 w-8 h-8 border-b border-l border-[#FAF5EE]/20" />
     </div>

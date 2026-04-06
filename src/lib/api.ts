@@ -21,6 +21,7 @@ export interface WPPost {
   id: number;
   slug: string;
   date: string;
+  categories?: number[];
   title: { rendered: string };
   excerpt: { rendered: string };
   content: { rendered: string };
@@ -32,7 +33,11 @@ export interface WPPost {
       media_details?: { sizes?: { medium?: { source_url: string } } };
     }>;
     "wp:term"?: Array<Array<{ id: number; name: string; slug: string }>>;
-    author?: Array<{ name: string; avatar_urls?: Record<string, string> }>;
+    author?: Array<{
+      name: string;
+      description?: string;
+      avatar_urls?: Record<string, string>;
+    }>;
   };
 }
 
@@ -116,6 +121,7 @@ export interface WPComment {
   id: number;
   post: number;
   parent: number;
+  author: number;
   author_name: string;
   date: string;
   content: { rendered: string };
@@ -151,15 +157,23 @@ export async function submitComment(
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (wpToken) headers["Authorization"] = `Bearer ${wpToken}`;
 
+    const body: Record<string, unknown> = {
+      post: payload.postId,
+      content: payload.content,
+    };
+
+    // When authenticated, omit author fields — WordPress assigns them from
+    // the JWT token so the comment is linked to the user account (author ID > 0).
+    // For guest comments, pass the fields explicitly.
+    if (!wpToken) {
+      body.author_name = payload.authorName;
+      body.author_email = payload.authorEmail;
+    }
+
     const res = await fetch(`${BASE_URL}/comments`, {
       method: "POST",
       headers,
-      body: JSON.stringify({
-        post: payload.postId,
-        author_name: payload.authorName,
-        author_email: payload.authorEmail,
-        content: payload.content,
-      }),
+      body: JSON.stringify(body),
     });
 
     if (res.status === 201) {
@@ -171,8 +185,8 @@ export async function submitComment(
       return { ok: false, error: "You already submitted that comment." };
     }
 
-    const body = await res.json().catch(() => ({}));
-    return { ok: false, error: body?.message ?? "Failed to submit comment." };
+    const errBody = await res.json().catch(() => ({}));
+    return { ok: false, error: errBody?.message ?? "Failed to submit comment." };
   } catch {
     return { ok: false, error: "Network error — please try again." };
   }
@@ -201,4 +215,49 @@ export function formatDate(dateString: string): string {
 
 export function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").replace(/&[a-z]+;/gi, " ").trim();
+}
+
+export async function deleteComment(
+  commentId: number,
+  wpToken: string
+): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const res = await fetch(`${BASE_URL}/comments/${commentId}?force=true`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${wpToken}` },
+    });
+    if (res.ok) return { ok: true };
+    const body = await res.json().catch(() => ({}));
+    return { ok: false, error: body?.message ?? "Failed to delete comment." };
+  } catch {
+    return { ok: false, error: "Network error." };
+  }
+}
+
+export function getAuthorAvatar(post: WPPost): string | null {
+  const urls = post._embedded?.author?.[0]?.avatar_urls;
+  if (!urls) return null;
+  return urls["96"] ?? urls["48"] ?? Object.values(urls)[0] ?? null;
+}
+
+export function getAuthorBio(post: WPPost): string {
+  return post._embedded?.author?.[0]?.description ?? "";
+}
+
+export async function getRelatedPosts(
+  categoryId: number,
+  excludeSlug: string,
+  limit = 3
+): Promise<WPPost[]> {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/posts?categories=${categoryId}&per_page=${limit + 1}&_embed=1`,
+      { next: { tags: ["posts"] } }
+    );
+    if (!res.ok) return [];
+    const posts: WPPost[] = await res.json();
+    return posts.filter((p) => p.slug !== excludeSlug).slice(0, limit);
+  } catch {
+    return [];
+  }
 }

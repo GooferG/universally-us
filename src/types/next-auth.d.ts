@@ -4,6 +4,7 @@ import "next-auth/jwt";
 declare module "next-auth" {
   interface Session {
     wpToken?: string;
+    wpUserId?: number;
     user: {
       name?: string | null;
       email?: string | null;
@@ -13,11 +14,13 @@ declare module "next-auth" {
 
   interface User {
     token?: string;
+    wpUserId?: number;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     wpToken?: string;
+    wpUserId?: number;
   }
 }

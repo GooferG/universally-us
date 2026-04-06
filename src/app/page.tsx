@@ -1,18 +1,21 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { getPosts } from "@/lib/api";
-import PostCard from "@/components/PostCard";
-import BookCover from "@/components/BookCover";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import { getPosts } from '@/lib/api';
+import PostCard from '@/components/PostCard';
+import BookCover from '@/components/BookCover';
 
 export const metadata: Metadata = {
-  title: "Universally Us — Support for Women Healing from Narcissistic Relationships",
+  title:
+    'Universally Us — Support for Women Healing from Narcissistic Relationships',
   description:
-    "You are not alone. Find support, community, and healing from narcissistic relationships at Universally Us.",
+    'You are not alone. Find support, community, and healing from narcissistic relationships at Universally Us.',
 };
 
-const HERO_IMAGE = "https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/calm-woman-by-lake.webp";
-const JOIN_IMAGE = "https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/woman-blindfold-lifted.webp";
+const HERO_IMAGE =
+  'https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/calm-woman-by-lake.webp';
+const JOIN_IMAGE =
+  'https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/woman-blindfold-lifted.webp';
 
 export default async function HomePage() {
   const { posts } = await getPosts(1, 3);
@@ -35,23 +38,26 @@ export default async function HomePage() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(135deg, rgba(237,213,203,0.88) 0%, rgba(212,181,160,0.80) 50%, rgba(180,140,115,0.65) 100%)",
+              'linear-gradient(135deg, rgba(237,213,203,0.88) 0%, rgba(212,181,160,0.80) 50%, rgba(180,140,115,0.65) 100%)',
           }}
         />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="max-w-3xl">
-            <p className="section-eyebrow animate-fade-in-up">Support for You</p>
+            <p className="section-eyebrow animate-fade-in-up">
+              Support for You
+            </p>
             <h1
               className="font-playfair text-[#2D2A27] text-balance animate-fade-in-up delay-100"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", lineHeight: 1.15 }}
+              style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', lineHeight: 1.15 }}
             >
-              Navigating and healing from narcissistic relationships doesn&apos;t have to be a solo
-              mission. You are not alone.
+              Navigating and healing from narcissistic relationships
+              doesn&apos;t have to be a solo mission. You are not alone.
             </h1>
             <p className="mt-6 text-[#4A4540] text-lg leading-relaxed max-w-2xl animate-fade-in-up delay-200">
-              Suffering through a narcissistic relationship doesn&apos;t have to be your fate. You
-              matter, and you&apos;re not alone. Find your support network here at Universally Us.
+              Suffering through a narcissistic relationship doesn&apos;t have to
+              be your fate. You matter, and you&apos;re not alone. Find your
+              support network here at Universally Us.
             </p>
             <div className="mt-10 animate-fade-in-up delay-300">
               <Link href="/articles" className="btn-primary">
@@ -64,7 +70,9 @@ export default async function HomePage() {
         {/* Bottom fade into page */}
         <div
           className="absolute bottom-0 left-0 right-0 h-24"
-          style={{ background: "linear-gradient(to bottom, transparent, #FAF5EE)" }}
+          style={{
+            background: 'linear-gradient(to bottom, transparent, #FAF5EE)',
+          }}
         />
       </section>
 
@@ -75,16 +83,18 @@ export default async function HomePage() {
             <div className="w-16 h-px bg-[#C4775A] mx-auto mb-8" />
             <h2
               className="font-playfair text-[#2D2A27] mb-8"
-              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)" }}
+              style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)' }}
             >
               Welcome to Universally Us: Together We Stand
             </h2>
             <p className="text-[#4A4540] text-lg leading-relaxed">
-              If you are in a narcissistic relationship, you&apos;re not alone. Whether you&apos;re
-              leaving, raising children, or starting over from the ashes of an abusive relationship,
-              you&apos;ll find understanding and supportive friends here. Together we share our
-              confusion and fear, our anguish, and our tears. But together we also discover our
-              strength. This is our story. This is us. Universally us.
+              If you are in a narcissistic relationship, you&apos;re not alone.
+              Whether you&apos;re leaving, raising children, or starting over
+              from the ashes of an abusive relationship, you&apos;ll find
+              understanding and supportive friends here. Together we share our
+              confusion and fear, our anguish, and our tears. But together we
+              also discover our strength. This is our story. This is us.
+              Universally us.
             </p>
             <div className="w-16 h-px bg-[#C4775A] mx-auto mt-8" />
           </div>
@@ -99,7 +109,7 @@ export default async function HomePage() {
             <div className="relative">
               <div
                 className="w-full rounded-sm overflow-hidden shadow-xl relative"
-                style={{ aspectRatio: "4/5" }}
+                style={{ aspectRatio: '4/5' }}
               >
                 <Image
                   src={JOIN_IMAGE}
@@ -118,19 +128,23 @@ export default async function HomePage() {
               <p className="section-eyebrow">Join Our Community</p>
               <h2
                 className="font-playfair text-[#2D2A27] mb-6"
-                style={{ fontSize: "clamp(1.75rem, 3vw, 2.25rem)" }}
+                style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
               >
                 Universally Us Invites You to Join Us
               </h2>
               <p className="text-[#4A4540] leading-relaxed mb-5">
-                Your voice matters. Share your story, connect with others who understand, and find
-                the clarity you are seeking on your journey of healing.
+                Your voice matters. Share your story, connect with others who
+                understand, and find the clarity you are seeking on your journey
+                of healing.
               </p>
               <p className="text-[#4A4540] leading-relaxed mb-8">
-                For your safety, your privacy is always completely protected here. Your information
-                will <strong className="text-[#2D2A27]">NEVER</strong> be shared, sold, or otherwise
-                given to any third parties. Because privacy is paramount, your information is also
-                safe within the community. Names don&apos;t matter here. Only support and healing.
+                For your safety, your privacy is always completely protected
+                here. Your information will{' '}
+                <strong className="text-[#2D2A27]">NEVER</strong> be shared,
+                sold, or otherwise given to any third parties. Because privacy
+                is paramount, your information is also safe within the
+                community. Names don&apos;t matter here. Only support and
+                healing.
               </p>
               <Link href="/register" className="btn-primary">
                 Join In <span aria-hidden="true">→</span>
@@ -150,21 +164,27 @@ export default async function HomePage() {
               </p>
               <h2
                 className="font-playfair text-[#FAF5EE] mb-6"
-                style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)" }}
+                style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
               >
                 LEAVING YOU... <em>for me</em>
               </h2>
               <p className="text-[#B8B0A8] leading-relaxed mb-8">
-                While there are any number of dating guides out there – few books speak honestly to
-                the trials, tribulations, poignancy and humor of re-entering the dating pool after a
-                long, monogamous relationship.
+                While there are any number of dating guides out there – few
+                books speak honestly to the trials, tribulations, poignancy and
+                humor of re-entering the dating pool after a long, monogamous
+                relationship.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/books" className="btn-outline-cream">
-                  Read a Sample
-                </Link>
                 <a
-                  href="https://www.amazon.com"
+                  href="https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/CH1-3-Leaving-You.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-outline-cream"
+                >
+                  Read a Sample
+                </a>
+                <a
+                  href="https://www.amazon.com/Leaving-You-Me-Alex-Delon-ebook/dp/B07D53LS6C/ref=sr_1_1?sr=8-1"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary"
@@ -188,7 +208,7 @@ export default async function HomePage() {
               <div className="w-12 h-px bg-[#C4775A] mb-4" />
               <h2
                 className="font-playfair text-[#2D2A27]"
-                style={{ fontSize: "clamp(1.75rem, 3vw, 2.25rem)" }}
+                style={{ fontSize: 'clamp(1.75rem, 3vw, 2.25rem)' }}
               >
                 Latest Articles
               </h2>

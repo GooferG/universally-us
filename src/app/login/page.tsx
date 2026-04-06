@@ -11,7 +11,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/";
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ login: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,7 +26,7 @@ function LoginForm() {
     setError(null);
 
     const result = await signIn("credentials", {
-      email: formData.email,
+      login: formData.login,
       password: formData.password,
       redirect: false,
     });
@@ -81,18 +81,18 @@ function LoginForm() {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-[#4A4540] mb-2">
-            Email
+          <label htmlFor="login" className="block text-sm font-medium text-[#4A4540] mb-2">
+            Email or Username
           </label>
           <input
-            id="email"
-            name="email"
-            type="email"
+            id="login"
+            name="login"
+            type="text"
             required
-            value={formData.email}
+            value={formData.login}
             onChange={handleChange}
             className="w-full px-4 py-3 border border-[#EEE0CC] text-[#2D2A27] placeholder-[#B8B0A8] text-sm focus:outline-none focus:border-[#C4775A] focus:ring-1 focus:ring-[#C4775A]/30 transition-colors"
-            placeholder="you@example.com"
+            placeholder="you@example.com or username"
           />
         </div>
         <div>
@@ -100,9 +100,9 @@ function LoginForm() {
             <label htmlFor="password" className="block text-sm font-medium text-[#4A4540]">
               Password
             </label>
-            <a href="#" className="text-xs text-[#C4775A] hover:text-[#A85E45] transition-colors">
+            <Link href="/forgot-password" className="text-xs text-[#C4775A] hover:text-[#A85E45] transition-colors">
               Forgot password?
-            </a>
+            </Link>
           </div>
           <input
             id="password"

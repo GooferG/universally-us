@@ -2,7 +2,7 @@
 
 import { useState, FormEvent, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { WPComment, submitComment, formatDate } from "@/lib/api";
+import { WPComment, submitComment, deleteComment, formatDate } from "@/lib/api";
 
 interface CommentsProps {
   postId: number;
@@ -15,6 +15,7 @@ export default function Comments({ postId, initialComments }: CommentsProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const { data: session } = useSession();
+  const wpUserId = session?.wpUserId;
 
   // Pre-fill name and email from session when user is logged in
   useEffect(() => {
@@ -31,6 +32,15 @@ export default function Comments({ postId, initialComments }: CommentsProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleDelete = async (commentId: number) => {
+    const token = session?.wpToken;
+    if (!token) return;
+    const result = await deleteComment(commentId, token);
+    if (result.ok) {
+      setComments((prev) => prev.filter((c) => c.id !== commentId));
+    }
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -73,7 +83,12 @@ export default function Comments({ postId, initialComments }: CommentsProps) {
       {comments.length > 0 ? (
         <div className="space-y-6 mb-12">
           {comments.map((comment) => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              canDelete={!!wpUserId && comment.author === wpUserId}
+              onDelete={handleDelete}
+            />
           ))}
         </div>
       ) : (
@@ -180,7 +195,15 @@ export default function Comments({ postId, initialComments }: CommentsProps) {
   );
 }
 
-function CommentItem({ comment }: { comment: WPComment }) {
+function CommentItem({
+  comment,
+  canDelete,
+  onDelete,
+}: {
+  comment: WPComment;
+  canDelete: boolean;
+  onDelete: (id: number) => void;
+}) {
   const initials = comment.author_name
     .split(" ")
     .map((w) => w[0])
@@ -200,6 +223,15 @@ function CommentItem({ comment }: { comment: WPComment }) {
           <span className="font-medium text-[#2D2A27] text-sm">{comment.author_name}</span>
           <span className="text-[#D4C4B0] text-xs">·</span>
           <time className="text-[#B8B0A8] text-xs">{formatDate(comment.date)}</time>
+          {canDelete && (
+            <button
+              onClick={() => onDelete(comment.id)}
+              className="ml-auto text-xs text-[#B8B0A8] hover:text-red-500 transition-colors"
+              aria-label="Delete comment"
+            >
+              Delete
+            </button>
+          )}
         </div>
         <div
           className="text-[#4A4540] text-sm leading-relaxed wp-content"
