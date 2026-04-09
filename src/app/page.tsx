@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const HERO_IMAGE =
   'https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/calm-woman-by-lake.webp';
 const JOIN_IMAGE =
-  'https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/woman-blindfold-lifted.webp';
+  'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/universally-us-invites-min.webp';
 
 export default async function HomePage() {
   const { posts } = await getPosts(1, 3);
