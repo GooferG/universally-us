@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { getPosts } from '@/lib/api';
 import PostCard from '@/components/PostCard';
 import BookCover from '@/components/BookCover';
+import HeroSlideshow from '@/components/HeroSlideshow';
 
 export const metadata: Metadata = {
   title:
@@ -12,8 +13,24 @@ export const metadata: Metadata = {
     'You are not alone. Find support, community, and healing from narcissistic relationships at Universally Us.',
 };
 
-const HERO_IMAGE =
-  'https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/calm-woman-by-lake.webp';
+const HERO_IMAGES = [
+  {
+    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-04-min.webp',
+    alt: 'A woman sitting peacefully by a calm lake',
+  },
+  {
+    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-02-min.webp',
+    alt: 'A woman finding strength and clarity',
+  },
+  {
+    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-01-min.webp',
+    alt: 'A woman stepping into her healing journey',
+  },
+  {
+    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-03-min.webp',
+    alt: 'A woman embracing hope and connection',
+  },
+];
 const JOIN_IMAGE =
   'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/universally-us-invites-min.webp';
 
@@ -24,15 +41,8 @@ export default async function HomePage() {
     <>
       {/* ── HERO ── */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Background image */}
-        <Image
-          src={HERO_IMAGE}
-          alt="A woman sitting peacefully by a calm lake"
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
+        {/* Background images with slideshow */}
+        <HeroSlideshow images={HERO_IMAGES} />
         {/* Warm overlay so text remains readable */}
         <div
           className="absolute inset-0"
