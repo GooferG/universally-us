@@ -31,6 +31,7 @@ const HERO_IMAGES = [
     alt: 'A woman embracing hope and connection',
   },
 ];
+
 const JOIN_IMAGE =
   'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/universally-us-invites-min.webp';
 
