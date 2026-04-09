@@ -11,10 +11,10 @@ Replace the static hero background image on the home page with an auto-cycling c
 
 | Order | URL |
 |-------|-----|
-| 1 (default) | `https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-04-min.webp` |
-| 2 | `https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-02-min.webp` |
-| 3 | `https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-01-min.webp` |
-| 4 | `https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-03-min.webp` |
+| 1 (default) | `https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-04-min.webp` |
+| 2 | `https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-02-min.webp` |
+| 3 | `https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-01-min.webp` |
+| 4 | `https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-03-min.webp` |
 
 ## Components
 

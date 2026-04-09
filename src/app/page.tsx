@@ -15,25 +15,25 @@ export const metadata: Metadata = {
 
 const HERO_IMAGES = [
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-04-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-04-min.webp',
     alt: 'A woman sitting peacefully by a calm lake',
   },
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-02-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-02-min.webp',
     alt: 'A woman finding strength and clarity',
   },
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-01-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-01-min.webp',
     alt: 'A woman stepping into her healing journey',
   },
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-03-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-03-min.webp',
     alt: 'A woman embracing hope and connection',
   },
 ];
 
 const JOIN_IMAGE =
-  'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/universally-us-invites-min.webp';
+  'https://cms.universallyus.com/wp-content/uploads/2024/04/universally-us-invites-min.webp';
 
 export default async function HomePage() {
   const { posts } = await getPosts(1, 3);
@@ -187,7 +187,7 @@ export default async function HomePage() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/CH1-3-Leaving-You.pdf"
+                  href="https://cms.universallyus.com/wp-content/uploads/2024/04/CH1-3-Leaving-You.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline-cream"

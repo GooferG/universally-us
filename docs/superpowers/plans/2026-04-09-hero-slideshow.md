@@ -90,26 +90,26 @@ git commit -m "feat: add HeroSlideshow crossfade component"
 Find this at the top of `page.tsx`:
 ```ts
 const HERO_IMAGE =
-  'https://w4n.08a.mytemp.website/wp-content/uploads/2025/07/calm-woman-by-lake.webp';
+  'https://cms.universallyus.com/wp-content/uploads/2025/07/calm-woman-by-lake.webp';
 ```
 
 Replace it with:
 ```ts
 const HERO_IMAGES = [
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-04-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-04-min.webp',
     alt: 'A woman sitting peacefully by a calm lake',
   },
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-02-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-02-min.webp',
     alt: 'A woman finding strength and clarity',
   },
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-01-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-01-min.webp',
     alt: 'A woman stepping into her healing journey',
   },
   {
-    src: 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/hero-banner-03-min.webp',
+    src: 'https://cms.universallyus.com/wp-content/uploads/2024/04/hero-banner-03-min.webp',
     alt: 'A woman embracing hope and connection',
   },
 ];

@@ -22,7 +22,7 @@ const QUESTIONS = [
 ];
 
 const BOOK_IMAGE =
-  'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/book-min.webp';
+  'https://cms.universallyus.com/wp-content/uploads/2024/04/book-min.webp';
 
 export default function BooksPage() {
   return (

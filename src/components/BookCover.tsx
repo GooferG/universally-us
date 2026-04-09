@@ -7,7 +7,7 @@ interface BookCoverProps {
 
 export default function BookCover({
   className = '',
-  imageUrl = 'https://w4n.08a.mytemp.website/wp-content/uploads/2024/04/book-min.webp',
+  imageUrl = 'https://cms.universallyus.com/wp-content/uploads/2024/04/book-min.webp',
 }: BookCoverProps) {
   if (imageUrl) {
     return (

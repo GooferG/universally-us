@@ -1,7 +1,7 @@
 /**
  * WordPress REST API utilities for Universally Us
  *
- * Base URL: https://w4n.08a.mytemp.website/wp-json/wp/v2
+ * Base URL: https://cms.universallyus.com/wp-json/wp/v2
  *
  * NOTE: If you encounter CORS issues in development, either:
  *   1. Add `Access-Control-Allow-Origin: *` headers on the WordPress server, or
@@ -15,7 +15,7 @@
 
 const BASE_URL = process.env.WP_API_URL
   ? `${process.env.WP_API_URL}/wp/v2`
-  : "https://w4n.08a.mytemp.website/wp-json/wp/v2";
+  : "https://cms.universallyus.com/wp-json/wp/v2";
 
 export interface WPPost {
   id: number;
