@@ -9,6 +9,11 @@ const nextConfig = {
         hostname: 'cms.universallyus.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'w4n.08a.mytemp.website',
+        pathname: '/**',
+      },
       // Add other image hosts as needed (e.g. secure.gravatar.com for avatars)
       {
         protocol: 'https',

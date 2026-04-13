@@ -35,6 +35,8 @@ const HERO_IMAGES = [
 const JOIN_IMAGE =
   'https://cms.universallyus.com/wp-content/uploads/2024/04/universally-us-invites-min.webp';
 
+export const revalidate = 0;
+
 export default async function HomePage() {
   const { posts } = await getPosts(1, 3);
 
