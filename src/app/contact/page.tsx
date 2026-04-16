@@ -1,6 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
+const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!;
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -12,6 +15,8 @@ export default function ContactPage() {
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -21,22 +26,32 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      setErrorMsg("Please complete the CAPTCHA.");
+      setStatus("error");
+      return;
+    }
+
     setStatus("submitting");
     setErrorMsg("");
 
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ ...formData, hcaptchaToken: captchaToken }),
     });
 
     const data = await res.json();
 
     if (res.ok) {
       setStatus("success");
+      setCaptchaToken(null);
     } else {
       setErrorMsg(data.error ?? "Something went wrong. Please try again.");
       setStatus("error");
+      captchaRef.current?.resetCaptcha();
+      setCaptchaToken(null);
     }
   };
 
@@ -115,6 +130,7 @@ export default function ContactPage() {
                   onClick={() => {
                     setStatus("idle");
                     setFormData({ name: "", email: "", subject: "", message: "", _hp: "" });
+                    setCaptchaToken(null);
                   }}
                   className="btn-outline"
                 >
@@ -223,9 +239,16 @@ export default function ContactPage() {
                   </p>
                 )}
 
+                <HCaptcha
+                  sitekey={HCAPTCHA_SITE_KEY}
+                  onVerify={(token) => setCaptchaToken(token)}
+                  onExpire={() => setCaptchaToken(null)}
+                  ref={captchaRef}
+                />
+
                 <button
                   type="submit"
-                  disabled={status === "submitting"}
+                  disabled={status === "submitting" || !captchaToken}
                   className="btn-primary w-full justify-center disabled:opacity-70"
                 >
                   {status === "submitting" ? "Sending…" : "Send Message"}

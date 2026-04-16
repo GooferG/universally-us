@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
+const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!;
 
 type Status = "idle" | "submitting" | "pending-approval" | "error";
 
@@ -17,6 +20,8 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -31,6 +36,11 @@ export default function RegisterPage() {
       return;
     }
 
+    if (!captchaToken) {
+      setError("Please complete the CAPTCHA.");
+      return;
+    }
+
     setStatus("submitting");
     setError(null);
 
@@ -41,6 +51,7 @@ export default function RegisterPage() {
         username: formData.username,
         email: formData.email,
         password: formData.password,
+        hcaptchaToken: captchaToken,
       }),
     });
 
@@ -49,6 +60,8 @@ export default function RegisterPage() {
     if (!res.ok) {
       setError(data.error ?? "Registration failed. Please try again.");
       setStatus("idle");
+      captchaRef.current?.resetCaptcha();
+      setCaptchaToken(null);
       return;
     }
 
@@ -224,9 +237,16 @@ export default function RegisterPage() {
                 third parties. Your privacy is our priority.
               </p>
 
+              <HCaptcha
+                sitekey={HCAPTCHA_SITE_KEY}
+                onVerify={(token) => setCaptchaToken(token)}
+                onExpire={() => setCaptchaToken(null)}
+                ref={captchaRef}
+              />
+
               <button
                 type="submit"
-                disabled={status === "submitting"}
+                disabled={status === "submitting" || !captchaToken}
                 className="btn-primary w-full justify-center disabled:opacity-70"
               >
                 {status === "submitting" ? "Creating account…" : "Create Account"}

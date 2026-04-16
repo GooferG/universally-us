@@ -1,11 +1,16 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+
+const HCAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!;
 
 export default function NewsletterSignup() {
   const [form, setForm] = useState({ name: "", email: "", _hp: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const captchaRef = useRef<HCaptcha>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -13,22 +18,32 @@ export default function NewsletterSignup() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    if (!captchaToken) {
+      setErrorMsg("Please complete the CAPTCHA.");
+      setStatus("error");
+      return;
+    }
+
     setStatus("submitting");
     setErrorMsg("");
 
     const res = await fetch("/api/newsletter", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ ...form, hcaptchaToken: captchaToken }),
     });
 
     const data = await res.json();
 
     if (res.ok) {
       setStatus("success");
+      setCaptchaToken(null);
     } else {
       setErrorMsg(data.error ?? "Something went wrong. Please try again.");
       setStatus("error");
+      captchaRef.current?.resetCaptcha();
+      setCaptchaToken(null);
     }
   };
 
@@ -93,9 +108,17 @@ export default function NewsletterSignup() {
             />
           </div>
 
+          <HCaptcha
+            sitekey={HCAPTCHA_SITE_KEY}
+            onVerify={(token) => setCaptchaToken(token)}
+            onExpire={() => setCaptchaToken(null)}
+            ref={captchaRef}
+            theme="dark"
+          />
+
           <button
             type="submit"
-            disabled={status === "submitting"}
+            disabled={status === "submitting" || !captchaToken}
             className="w-full px-4 py-2.5 bg-[#C4775A] text-[#FAF5EE] text-sm font-medium hover:bg-[#A85E45] transition-colors disabled:opacity-70"
           >
             {status === "submitting" ? "Subscribing…" : "Subscribe"}

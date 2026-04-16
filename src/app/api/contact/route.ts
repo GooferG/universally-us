@@ -5,11 +5,12 @@ const WP_API          = process.env.WP_API_URL!;
 const WP_ADMIN        = process.env.WP_ADMIN_USERNAME!;
 const WP_APP_PASSWORD = process.env.WP_APP_PASSWORD!;
 
-const FORM_ID         = process.env.FORMIDABLE_CONTACT_FORM_ID!;
-const FIELD_NAME      = process.env.FORMIDABLE_CONTACT_FIELD_NAME!;
-const FIELD_EMAIL     = process.env.FORMIDABLE_CONTACT_FIELD_EMAIL!;
-const FIELD_SUBJECT   = process.env.FORMIDABLE_CONTACT_FIELD_SUBJECT!;
-const FIELD_MESSAGE   = process.env.FORMIDABLE_CONTACT_FIELD_MESSAGE!;
+const FORM_ID           = process.env.FORMIDABLE_CONTACT_FORM_ID!;
+const FIELD_NAME        = process.env.FORMIDABLE_CONTACT_FIELD_NAME!;
+const FIELD_EMAIL       = process.env.FORMIDABLE_CONTACT_FIELD_EMAIL!;
+const FIELD_SUBJECT     = process.env.FORMIDABLE_CONTACT_FIELD_SUBJECT!;
+const FIELD_MESSAGE     = process.env.FORMIDABLE_CONTACT_FIELD_MESSAGE!;
+const HCAPTCHA_SECRET   = process.env.HCAPTCHA_SECRET_KEY!;
 
 export async function POST(req: NextRequest) {
   // ── Rate limiting: max 3 submissions per IP per 10 minutes ──
@@ -25,12 +26,25 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { name, email, subject, message, _hp } = body;
+    const { name, email, subject, message, _hp, hcaptchaToken } = body;
 
     // ── Honeypot check: bots fill hidden fields, humans don't ──
     if (_hp) {
-      // Silently return success so bots think they succeeded
       return NextResponse.json({ success: true }, { status: 201 });
+    }
+
+    // ── hCaptcha verification ──
+    if (!hcaptchaToken) {
+      return NextResponse.json({ error: "CAPTCHA token missing." }, { status: 400 });
+    }
+    const captchaRes = await fetch("https://api.hcaptcha.com/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `secret=${HCAPTCHA_SECRET}&response=${hcaptchaToken}`,
+    });
+    const captchaData = await captchaRes.json();
+    if (!captchaData.success) {
+      return NextResponse.json({ error: "CAPTCHA verification failed." }, { status: 400 });
     }
 
     if (!name || !email || !subject || !message) {
